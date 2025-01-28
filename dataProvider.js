@@ -20,9 +20,9 @@ export const dataProvider = {
     game: {
         currentIndex  : 0,
         nextInterval  : 0,
-        minInterval   : 0,
-        randomInterval: 0,
-        showCountdown : true,
+        minInterval   : 30,
+        randomInterval: 30,
+        showCountdown : false,
     },
 
     cardList : [],

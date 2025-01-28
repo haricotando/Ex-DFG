@@ -12,20 +12,25 @@ export class Instruction extends PIXI.Container {
     }
 
     init(){
-        // const bg = this.addChild(GraphicsHelper.exDrawRect(0, 0, dp.stageRect.width, dp.stageRect.height, false, {color:0x000000}));
-        const textTitle = this.addChild(new PIXI.Text("INSTRUCTION", {
-            fontFamily: 'Inter', 
-            fontWeight: 400,
-            fontSize: 65, fill: 0xFEFEFE,
-            letterSpacing: 15,
+        const bg = this.addChild(GraphicsHelper.exDrawRect(0, 0, dp.stageRect.width, dp.stageRect.height, false, {color:0x000000}));
+
+        const titleContainer = this.addChild(new PIXI.Container());
+        titleContainer.position.set(dp.stageRect.halfWidth, dp.stageRect.halfHeight/3);
+        const textEx = titleContainer.addChild(new PIXI.Text("Ex-DFG", {
+            fontFamily: 'Inter',
+            fontWeight: 900,
+            fontSize  : 300,
+            fill      : 0x1A1F22,
+            stroke: '#000000',
+            strokeThickness: 4,
+            
+            letterSpacing: -40,
         }));
-        textTitle.anchor.set(0.5, 0);
-        textTitle.x = dp.stageRect.halfWidth;
-        textTitle.y = 100;
+        textEx.anchor.set(0.5);
 
         this.initButton();
 
-        const textDescripton = this.addChild(new PIXI.Text("STUDY10「既存ゲームの拡張」\n既存ゲームの進行を外部から干渉しルールを変えていくことで見つかる\n面白さを検証するプロトタイピング\n\nこのブランチでは\n「大富豪」を拡張する\n\n1. 物理トランプを用意する\n2. カードを配る\n3. ローカルルールを確認する\n4. 「進む」を押す", {
+        const textDescripton = this.addChild(new PIXI.Text("「Ex大富豪」\nこのアプリは大富豪のルールを\n外部から拡張する\n\n<遊び方＞\n物理トランプを用意する\n2. カードを配る\n3. ローカルルールを確認する\n4. 「進む」を押す", {
             fontFamily: 'Kaisei Decol', 
             fontWeight: 700,
             fontSize: 50, fill: 0xFEFEFE,
@@ -37,8 +42,8 @@ export class Instruction extends PIXI.Container {
         }));
         textDescripton.anchor.set(0.5, 0.5);
         textDescripton.x = dp.stageRect.halfWidth;
-        const tdOffset =  (this.startButton.y - textTitle.y) / 2;
-        textDescripton.y = textTitle.y + tdOffset;
+        const tdOffset =  (this.startButton.y - titleContainer.y) / 2;
+        textDescripton.y = titleContainer.y + tdOffset;
         // textDescripton.y = 500;
 
     }

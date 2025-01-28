@@ -17,7 +17,7 @@ const basePCView = {width: 980, height: 1668};
 ------------------------------------------------------------ */
 WebFont.load({
     google: {
-        families: ['Inter:200,400', 'Kaisei Decol:700'],
+        families: ['Inter:200,400,900', 'Kaisei Decol:700'],
         // families: ['Inter:100,200,300,400,700', 'Material+Icons'],
         // families: ['Noto Sans Japanese:800', 'Inter:100,200,300,400,700', 'Material+Icons'],
     },
