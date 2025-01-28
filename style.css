@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+    /* background-color: #EFEFEF; */
+    background-color: #1A1F22;
+}
+
+canvas {
+    -webkit-touch-callout: none; /* 長押しメニュー無効化 */
+    -webkit-user-select: none;  /* テキスト選択無効化 */
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#orientation-message {
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+    padding: 50px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 120px;
+    display: none; /* 初期は非表示 */
+    z-index: 1000; /* 最前面に表示 */
+    font-family: 'Arial', sans-serif; /* サンセリフフォント */
+    font-weight: bold; /* 太字 */
+    
+    
+    /* position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 38px;
+    display: none;
+    z-index: 1000; */
+  }
