@@ -30,7 +30,7 @@ export class Instruction extends PIXI.Container {
 
         this.initButton();
 
-        const textDescripton = this.addChild(new PIXI.Text("「Ex大富豪」\nこのアプリは大富豪のルールを\n外部から拡張する\n\n<遊び方＞\n物理トランプを用意する\n2. カードを配る\n3. ローカルルールを確認する\n4. 「進む」を押す", {
+        const textDescripton = this.addChild(new PIXI.Text("「Ex大富豪」\nこのアプリは大富豪のルールを\n外部から拡張する\n（タイトルはそのうち綺麗にする）\n\n<遊び方＞\n物理トランプを用意する\n2. カードを配る\n3. ローカルルールを確認する\n4. 「進む」を押す", {
             fontFamily: 'Kaisei Decol', 
             fontWeight: 700,
             fontSize: 50, fill: 0xFEFEFE,

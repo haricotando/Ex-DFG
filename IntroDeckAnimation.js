@@ -3,6 +3,7 @@ import GraphicsHelper from "./class/helper/GraphicsHelper.js";
 import { Card } from "./Card.js";
 import Utils from "./class/util/Utils.js";
 import { CommonButton } from "./CommonButton.js";
+import { EventBlock } from "./EventBlock.js";
 
 export class IntroDeckAnimation extends PIXI.Container {
     
@@ -69,21 +70,8 @@ export class IntroDeckAnimation extends PIXI.Container {
     }
 
     initOptionScreen(){
-        this.textDescripton = this.addChild(new PIXI.Text(
-`＜ゲームの進め方＞
-ゲーム進行中にランダムで
-次のイベントが発生する
 
-＜即時イベント＞
-全員手を止める
-手番のプレイヤーがルールを確認
-ルールは即反映される
-            
-＜行動後イベント＞
-手番プレイヤーの行動後
-次にカードを出すプレイヤーが
-カードを出す前にルールを確認する
-`, 
+        this.textDescripton = this.addChild(new PIXI.Text('＜ゲームの進め方＞\nゲーム進行中に次のイベントが\nランダムで発生する', 
         {
             fontFamily: 'Kaisei Decol', 
             fontWeight: 700,
@@ -101,6 +89,17 @@ export class IntroDeckAnimation extends PIXI.Container {
 
         gsap.to(this.textDescripton, {alpha:1, duration:0.3, ease:'none', delay:0.2})
 
+        const eventA = this.addChild(new EventBlock(false));
+        eventA.position.set(dp.stageRect.halfWidth, this.textDescripton.y + this.textDescripton.height + eventA.height + 20 * dp.stageRect.aspectRatio);
+
+        const eventB = this.addChild(new EventBlock(true));
+        eventB.position.set(dp.stageRect.halfWidth, eventA.y + eventA.height + 40 * dp.stageRect.aspectRatio);
+
+        eventA.alpha = eventB.alpha = 0;
+
+        gsap.timeline({delay:0.2})
+            .to(eventA, {alpha:1, duration:0.3, ease:'none'})
+            .to(eventB, {alpha:1, duration:0.3, ease:'none'}, '<0.1')
         
         /**
          * config
@@ -167,11 +166,18 @@ export class IntroDeckAnimation extends PIXI.Container {
 
         this.cardListButton.position.set(
             dp.stageRect.halfWidth,
-            this.textDescripton.y + this.textDescripton.height + 100
+            this.textDescripton.y + dp.stageRect.height - 500
         );
+        this.cardListButton.alpha = 0;
 
-        this.cardListButton.cursor    = 'pointer';
-        this.cardListButton.eventMode = 'static';
+        gsap.timeline({delay:0.3})
+        .to(this.cardListButton, {alpha:1, duration:0.4, ease:'none'})
+        .call(()=>{
+            this.cardListButton.cursor    = 'pointer';
+            this.cardListButton.eventMode = 'static';
+            
+        });
+
         const onTap = (e) => {
             PIXI.sound.play('1tick3');
             this.cardListButton.eventMode = 'none';

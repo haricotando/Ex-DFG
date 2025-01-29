@@ -3,6 +3,7 @@ import GraphicsHelper from "./class/helper/GraphicsHelper.js";
 import { Card } from "./Card.js";
 import Utils from "./class/util/Utils.js";
 import { CommonButton } from "./CommonButton.js";
+import { EventBlock } from "./EventBlock.js";
 
 export class CardPreparer extends PIXI.Container {
     
@@ -64,64 +65,29 @@ export class CardPreparer extends PIXI.Container {
 
     initTextAndButton(){
         const nextCardInfo = Utils.findObjectById(dp.assets.csv, dp.deck[dp.game.currentIndex]);
-
-        this.eventTypeImage = PIXI.Sprite.from(nextCardInfo.event_trigger == 'onImmediateIntervention' ? dataProvider.assets.flip_card : dataProvider.assets.standby);
-        const flipcard80Height = Math.round(this.eventTypeImage.height * 0.8);
-
-        this.eventTypeImage.anchor.set(0.5);
-        this.eventTypeImage.x = dp.stageRect.halfWidth;
-        this.eventTypeImage.y = dp.stageRect.height / 7;
-        this.eventTypeImage.scale.set(0.3);
-        this.addChild(this.eventTypeImage);
-
-        const message = this.addChild(new PIXI.Text("...", {
-            fontFamily: 'Kaisei Decol', 
-            fontWeight: 700,
-            fontSize: 80, fill: 0xFEFEFE,
-            align: 'center',
-            breakWords: true,
-            wordWrap: true,
-            wordWrapWidth: 900,
-            dropShadow: true,
-            dropShadowColor: '#000000',
-            dropShadowAlpha: 0.9,
-            dropShadowBlur: 16,
-            dropShadowAngle: 0,
-            dropShadowDistance: 0,
-        }));
-        message.anchor.set(0.5, 0.5);
-        message.x = dp.stageRect.halfWidth;
-        message.y = dp.stageRect.halfHeight;
-        // message.y = this.eventTypeImage.y + this.eventTypeImage.height;
-        message.zIndex = 100;
-
-        this.eventTypeImage.scale.set(0.1);
-        gsap.timeline()
-            .to(this.eventTypeImage.scale, {x:0.3, y:0.3, duration:0.3, ease:'expo.out'})
-
-        if(nextCardInfo.event_trigger == 'onImmediateIntervention'){
-            message.text = '全員手を止めて\n手番プレイヤーが\nカードをめくる';
-        }else{
-            message.text = '手番プレイヤー行動後\n次のプレイヤーが\nカードをめくる';
-        }
+        const onImmediateIntervention = nextCardInfo.event_trigger == 'onImmediateIntervention';
 
         const btnFlipCard = this.textAndButton.addChild(new CommonButton('カードをめくる'));
         btnFlipCard.x = dp.stageRect.halfWidth;
-        const diff = dp.stageRect.height - (this.eventTypeImage.y + flipcard80Height / 2);
         btnFlipCard.y = dp.stageRect.height - dp.stageRect.height / 10;
         btnFlipCard.alpha = 0;
 
+        const eventBlock = this.addChild(new EventBlock(onImmediateIntervention));
+        eventBlock.position.set(dp.stageRect.halfWidth, btnFlipCard.y - 250);
+        eventBlock.alpha = 0;
+        
         gsap.timeline({delay: 0.5})
-        .to(btnFlipCard, {alpha:1, duration: 0.3, ease:'none'})
-        .call(()=>{
-            btnFlipCard.cursor    = 'pointer';
-            btnFlipCard.eventMode = 'static';
-        });
+            .to(btnFlipCard, {alpha:1, duration: 0.3, ease:'none'})
+            .to(eventBlock, {alpha:1, duration:0.4, ease:'none'}, '<')
+            .call(()=>{
+                btnFlipCard.cursor    = 'pointer';
+                btnFlipCard.eventMode = 'static';
+            });
         
         const onTap = (e) => {
             gsap.timeline()
-                .to(this.eventTypeImage.scale, {x:0.3, y:0.3, duration:0.3, ease:'none'})
-                .to(message, {alpha:0, duration:0.3, ease:'none'}, '<')
+                // .to(this.eventTypeImage.scale, {x:0.3, y:0.3, duration:0.3, ease:'none'})
+                .to(eventBlock, {alpha:0, duration:0.3, ease:'none'}, '<')
             btnFlipCard.eventMode = 'none';
             this.flipCard();
             this.textAndButton.visible = false;
@@ -135,13 +101,16 @@ export class CardPreparer extends PIXI.Container {
         this.cardBack = this.addChild(new Card('card_back'));
         this.cardBack.scale.set(1);
         this.cardBack.rotation = Utils.degreesToRadians(Math.random() * 10 -5);
-        this.cardBack.x = dp.stageRect.halfWidth;
-        this.cardBack.y = dp.stageRect.halfHeight + dp.stageRect.halfHeight/10;
-        // this.cardBack.y = message.y + (btnFlipCard.y - message.y) / 2;
+        this.cardBack.position.set(dp.stageRect.halfWidth, dp.stageRect.halfHeight - 200 - (20 * dp.stageRect.aspectRatio));
         /**
          * @todo ざっくりすぎるので調整
          */
-        const cardBackSize = 0.45 + (dp.stageRect.aspectRatio * dp.stageRect.aspectRatio / 22);
+
+        this.cardBack.height = dp.stageRect.height * 0.6;
+        const cardBackSize = this.cardBack.scale.y;
+        this.cardBack.scale.set(cardBackSize);
+
+        // const cardBackSize = 0.45 + (dp.stageRect.aspectRatio * dp.stageRect.aspectRatio / 22);
 
         gsap.timeline()
             .to(this.cardBack, {rotation: Utils.degreesToRadians(Math.random() * 10 -5), duration:0.2, ease:'sine.out'}, '<')
@@ -149,6 +118,14 @@ export class CardPreparer extends PIXI.Container {
             .to(this.cardBack.scale, {x:cardBackSize*1.05, y:cardBackSize*1.05, duration:0.15, ease:'back.out(0.4)'})
             .to(this.cardBack.scale, {x:cardBackSize, y:cardBackSize, duration:0.15})
         this.cardBack.zIndex = 5;
+
+
+        // const checkRect = GraphicsHelper.exDrawRect(0, 0, dp.stageRect.width, 
+        //     dp.stageRect.height * 0.6,
+        //     {color:0xFF0000, width:10}, false);
+        // checkRect.y = 100;
+
+        // this.addChild(checkRect);
     }
 
     flipCard(){
@@ -195,12 +172,17 @@ export class CardPreparer extends PIXI.Container {
         const card = this.addChild(new Card(this.cardId));
         card.x = dp.stageRect.halfWidth;
         card.y = (startButton.y - startButton.height / 2)/2 + 55;
-        card.scale.set(0.7);
+        
+        card.height = dp.stageRect.height * 0.75;
+        const cardScale = card.scale.y;
+        card.scale.set(cardScale - 0.1);
+
+        // card.scale.set(0.7);
         card.alpha = 0;
         gsap.timeline({delay:0.1})
             .to(this.whiteOverray, {alpha:0, duration:0.2, ease:'expo.out'})
             .to(card, {alpha:1, duration:0.3, ease:'none'}, '<0.2')
-            .to(card.scale, {x:0.78, y:0.78, duration:0.6, ease:'expo.out'}, '<0.1')
+            .to(card.scale, {x:cardScale, y:cardScale, duration:0.6, ease:'expo.out'}, '<0.1')
     }
 
 
