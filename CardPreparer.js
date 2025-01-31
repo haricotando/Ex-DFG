@@ -108,7 +108,7 @@ export class CardPreparer extends PIXI.Container {
 
         this.cardBack.height = dp.stageRect.height * 0.6;
         const cardBackSize = this.cardBack.scale.y;
-        this.cardBack.scale.set(cardBackSize);
+        this.cardBack.scale.set(cardBackSize * 1.5);
 
         // const cardBackSize = 0.45 + (dp.stageRect.aspectRatio * dp.stageRect.aspectRatio / 22);
 
