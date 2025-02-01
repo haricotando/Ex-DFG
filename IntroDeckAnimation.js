@@ -75,11 +75,11 @@ export class IntroDeckAnimation extends PIXI.Container {
 
     initOptionScreen(){
 
-        this.textDescripton = this.addChild(new PIXI.Text('＜ゲームの進め方＞\nゲーム進行中にランダムで\n次のイベントが発生する', 
+        this.textDescripton = this.addChild(new PIXI.Text('＜ゲームの進め方＞\nゲーム進行中にランダムで\nルール追加イベントが発生する\nカードの強さに影響するルールは\n次に場に出すカードから影響を受ける', 
         {
             fontFamily: 'Kaisei Decol', 
             fontWeight: 700,
-            fontSize: 60, fill: 0xFEFEFE,
+            fontSize: 45, fill: 0xFEFEFE,
             align: 'center',
             breakWords: true,
             wordWrap: true,
@@ -87,17 +87,16 @@ export class IntroDeckAnimation extends PIXI.Container {
             lineHeight: 90,
         }));
         this.textDescripton.anchor.set(0.5, 0);
-        this.textDescripton.x = dp.stageRect.halfWidth;
-        this.textDescripton.y = 120;
+        Utils.staticLayout(this.textDescripton, 'top', {top: 5});
         this.textDescripton.alpha = 0;
 
         gsap.to(this.textDescripton, {alpha:1, duration:0.3, ease:'none', delay:0.2})
 
         const eventA = this.addChild(new EventBlock(true));
-        eventA.position.set(dp.stageRect.halfWidth, this.textDescripton.y + this.textDescripton.height + eventA.height + 20 * dp.stageRect.aspectRatio);
+        eventA.position.set(dp.stageRect.halfWidth, this.textDescripton.y + this.textDescripton.height + eventA.height + 10);
 
         const eventB = this.addChild(new EventBlock(false));
-        eventB.position.set(dp.stageRect.halfWidth, eventA.y + eventA.height + 40 * dp.stageRect.aspectRatio);
+        eventB.position.set(dp.stageRect.halfWidth, eventA.y + eventA.height + 40);
 
         eventA.alpha = eventB.alpha = 0;
 
@@ -166,11 +165,12 @@ export class IntroDeckAnimation extends PIXI.Container {
             
         }));
         this.labelText.anchor.set(0.5, 0.5);
+        Utils.staticLayout(this.cardListButton, 'bottom', {bottom: 20});
 
-        this.cardListButton.position.set(
-            dp.stageRect.halfWidth,
-            this.textDescripton.y + dp.stageRect.height - 500
-        );
+        // this.cardListButton.position.set(
+        //     dp.stageRect.halfWidth,
+        //     this.textDescripton.y + dp.stageRect.height - 500
+        // );
         this.cardListButton.alpha = 0;
 
         gsap.timeline({delay:0.3})

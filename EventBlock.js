@@ -8,7 +8,7 @@ export class EventBlock extends PIXI.Container {
         super();
         this.imageAsset = onImmediateIntervention ? dataProvider.assets.flip_card : dataProvider.assets.standby;
         const eventADescription = '＜即時イベント＞\n最後に場にカードを出した\nプレイヤーが確認する';
-        const eventBDescription = '＜行動後イベント＞\n次にカードを出すプレイヤーが\nカードを出す前に確認する';
+        const eventBDescription = '＜行動前イベント＞\n次にカードを出すプレイヤーが\nカードを出す前に確認する';
 
         this.descripton = onImmediateIntervention ? eventADescription : eventBDescription;
         this.init();

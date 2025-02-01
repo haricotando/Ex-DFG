@@ -45,7 +45,7 @@ export class CardPreparer extends PIXI.Container {
         this.gameInProgressText.x = dp.stageRect.halfWidth;
         this.gameInProgressText.y = hourglass.y - 550;
         gsap.timeline({repeat: -1})
-            .to(this.gameInProgressText, {alpha:0.7, duration:0.3, ease:'none', delay:2})
+            .to(this.gameInProgressText, {alpha:0.4, duration:0.3, ease:'none', delay:2})
             .to(this.gameInProgressText, {alpha:1, duration:0.3, ease:'none'})
 
         hourglass.scale.set(0.1);
