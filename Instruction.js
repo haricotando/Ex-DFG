@@ -50,8 +50,7 @@ export class Instruction extends PIXI.Container {
     
     initButton(){
         this.startButton = this.addChild(new CommonButton('進む'));
-        this.startButton.x = dp.stageRect.halfWidth;
-        this.startButton.y = dp.stageRect.height - (dp.stageRect.height / 10);
+        Utils.staticLayout(this.startButton, 'bottom', {bottom: 10});
         
         this.startButton.cursor    = 'pointer';
         this.startButton.eventMode = 'static';

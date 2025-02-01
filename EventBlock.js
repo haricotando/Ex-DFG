@@ -7,8 +7,8 @@ export class EventBlock extends PIXI.Container {
     constructor(onImmediateIntervention) {
         super();
         this.imageAsset = onImmediateIntervention ? dataProvider.assets.flip_card : dataProvider.assets.standby;
-        const eventADescription = '＜即時イベント＞\n全員手を止める\n手番のプレイヤーがルールを確認\nルールは即反映される';
-        const eventBDescription = '＜行動後イベント＞\n手番プレイヤーの行動後\n次にカードを出すプレイヤーが\nカードを出す前にルールを確認する';
+        const eventADescription = '＜即時イベント＞\n最後に場にカードを出した\nプレイヤーが確認する';
+        const eventBDescription = '＜行動後イベント＞\n次にカードを出すプレイヤーが\nカードを出す前に確認する';
 
         this.descripton = onImmediateIntervention ? eventADescription : eventBDescription;
         this.init();
@@ -34,17 +34,17 @@ export class EventBlock extends PIXI.Container {
 
         this.textDescripton = this.container.addChild(new PIXI.Text(this.descripton, 
         {
-            fontFamily: 'Kaisei Decol', 
-            fontWeight: 700,
-            fontSize: 40, fill: 0xFEFEFE,
-            // align: 'center',
-            breakWords: true,
-            wordWrap: true,
+            fontFamily   : 'Kaisei Decol',
+            fontWeight   : 700,
+            fontSize     : 45,
+            fill         : 0xFEFEFE,
+            breakWords   : true,
+            wordWrap     : true,
             wordWrapWidth: 670,
-            lineHeight: 50,
+            lineHeight   : 60,
         }));
         this.textDescripton.anchor.set(0, 0.5);
-        this.textDescripton.x = - 210;
+        this.textDescripton.x = - 205;
         // this.textDescripton.y = 120;
 
     }

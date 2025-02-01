@@ -22,6 +22,8 @@ export const dataProvider = {
         nextInterval  : 0,
         minInterval   : 30,
         randomInterval: 30,
+        // minInterval   : 3,
+        // randomInterval: 3,
         showCountdown : false,
     },
 

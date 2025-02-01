@@ -19,20 +19,18 @@ export class GameContainer extends PIXI.Container {
     init(){
         // const bg = this.addChild(GraphicsHelper.exDrawRect(0, 0, dp.stageRect.width, dp.stageRect.height, false, {color:0x000000}));
         this.addChild(new IntroDeckAnimation());
-        setTimeout(() => {
-            PIXI.sound.play('1tick1');
-        }, 0);
-        setTimeout(() => {
-            PIXI.sound.play('1tick2');
-        }, 1800);
+        // setTimeout(() => {
+        //     PIXI.sound.play('1tick1');
+        // }, 0);
+        // setTimeout(() => {
+        //     PIXI.sound.play('1tick2');
+        // }, 1800);
 
         let noSleep = new NoSleep();
         noSleep.enable();
     }
     
     standby(){
-        console.log('standby called');
-        
         dp.game.currentIndex ++;
         if(dp.game.currentIndex >= dp.deck.length){
             Utils.shuffleArray(dp.deck);
@@ -48,11 +46,9 @@ export class GameContainer extends PIXI.Container {
         const nextCard = this.addChild(new CardPreparer(waitingDuration, dp.deck[dp.game.currentIndex]));
         
         this.eventInterval = setTimeout(() => {
-            if(nextCardInfo.event_trigger == 'onImmediateIntervention'){
-                PIXI.sound.play('start_catch1');
-            }else{
-                PIXI.sound.play('start_catch1');
-            }
+            PIXI.sound.play('start_catch1');
+            this.endButton.visible = false;
+            
             nextCard.onExecuteFX();
         }, waitingDuration);
     }

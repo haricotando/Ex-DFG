@@ -21,6 +21,7 @@ export class IntroDeckAnimation extends PIXI.Container {
         card0.scale.set(1.5);
         card0.rotation = Utils.degreesToRadians(Math.random()*10 - 5);
         card0.alpha = 0;
+        PIXI.sound.play('1tick1');
         gsap.timeline({delay:0.1})
             .to(card0, {alpha:1, duration:0.5, ease:'none'})
             .to(card0, {rotation:Utils.degreesToRadians(0), duration:0.5, ease:'sine.out'}, '<')
@@ -28,7 +29,10 @@ export class IntroDeckAnimation extends PIXI.Container {
             .to(card0.scale, {x:0.78, y:0.78, duration:0.5, ease:'sine.inOut', delay: 0.4})
 
 
-            .to(card0, {y:0, duration:0.5, ease:'circ.in'}, '<0.3')
+            .to(card0, {y:0, duration:0.5, ease:'circ.in',
+                onStart: () => {
+                    PIXI.sound.play('1tick2');
+                }}, '<0.3')
             .to(card0, {alpha:0, duration:0.3, ease:'none'}, '<0.3')
             .call(()=>{
                 this.initOptionScreen();
@@ -71,16 +75,16 @@ export class IntroDeckAnimation extends PIXI.Container {
 
     initOptionScreen(){
 
-        this.textDescripton = this.addChild(new PIXI.Text('＜ゲームの進め方＞\nゲーム進行中に次のイベントが\nランダムで発生する', 
+        this.textDescripton = this.addChild(new PIXI.Text('＜ゲームの進め方＞\nゲーム進行中にランダムで\n次のイベントが発生する', 
         {
             fontFamily: 'Kaisei Decol', 
             fontWeight: 700,
-            fontSize: 50, fill: 0xFEFEFE,
+            fontSize: 60, fill: 0xFEFEFE,
             align: 'center',
             breakWords: true,
             wordWrap: true,
             wordWrapWidth: 900,
-            lineHeight: 80,
+            lineHeight: 90,
         }));
         this.textDescripton.anchor.set(0.5, 0);
         this.textDescripton.x = dp.stageRect.halfWidth;
@@ -89,10 +93,10 @@ export class IntroDeckAnimation extends PIXI.Container {
 
         gsap.to(this.textDescripton, {alpha:1, duration:0.3, ease:'none', delay:0.2})
 
-        const eventA = this.addChild(new EventBlock(false));
+        const eventA = this.addChild(new EventBlock(true));
         eventA.position.set(dp.stageRect.halfWidth, this.textDescripton.y + this.textDescripton.height + eventA.height + 20 * dp.stageRect.aspectRatio);
 
-        const eventB = this.addChild(new EventBlock(true));
+        const eventB = this.addChild(new EventBlock(false));
         eventB.position.set(dp.stageRect.halfWidth, eventA.y + eventA.height + 40 * dp.stageRect.aspectRatio);
 
         eventA.alpha = eventB.alpha = 0;
@@ -106,8 +110,7 @@ export class IntroDeckAnimation extends PIXI.Container {
          */
 
         const btnStartGame = this.addChild(new CommonButton('ゲームを開始'));
-        btnStartGame.x = dp.stageRect.halfWidth;
-        btnStartGame.y = dp.stageRect.height - (dp.stageRect.height / 10);
+        Utils.staticLayout(btnStartGame, 'bottom', {bottom: 10});
         btnStartGame.alpha = 0;
 
         gsap.timeline()
