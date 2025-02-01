@@ -90,6 +90,8 @@ export class AssetLoader extends PIXI.Container {
         PIXI.Assets.add('spot2', './assets/card/spot2.png');
         PIXI.Assets.add('worker1', './assets/card/worker1.png');
         PIXI.Assets.add('worker2', './assets/card/worker2.png');
+        PIXI.Assets.add('drop_card1', './assets/card/drop_card1.png');
+        PIXI.Assets.add('card_from_grave1', './assets/card/card_from_grave1.png');
 
         PIXI.Assets.add('1tick1', './assets/snd/1tick1.m4a');
         PIXI.Assets.add('1tick2', './assets/snd/1tick2.m4a');
@@ -158,6 +160,8 @@ export class AssetLoader extends PIXI.Container {
             'spot2',
             'worker1',
             'worker2',
+            'drop_card1',
+            'card_from_grave1',
 
             '1tick1',
             '1tick2',
