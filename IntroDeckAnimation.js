@@ -75,7 +75,10 @@ export class IntroDeckAnimation extends PIXI.Container {
 
     initOptionScreen(){
 
-        this.textDescripton = this.addChild(new PIXI.Text('＜ゲームの進め方＞\nゲーム進行中にランダムで\nルール追加イベントが発生する\nカードの強さに影響するルールは\n次に場に出すカードから影響を受ける', 
+        this.textDescripton = this.addChild(new PIXI.Text(
+        `このゲームでは、プレイ中にランダムでルール追加イベントが発生し、それ以降のルールに影響を与えます。
+        イベントは即時と行動前の2種類がありいずれも発生した瞬間からルールが適用されます。`,
+        // this.textDescripton = this.addChild(new PIXI.Text('＜ゲームの進め方＞\nゲーム進行中にランダムで\nルール追加イベントが発生する\nカードの強さに影響するルールは\n次に場に出すカードから影響を受ける', 
         {
             fontFamily: 'Kaisei Decol', 
             fontWeight: 700,
@@ -83,8 +86,8 @@ export class IntroDeckAnimation extends PIXI.Container {
             align: 'center',
             breakWords: true,
             wordWrap: true,
-            wordWrapWidth: 900,
-            lineHeight: 90,
+            wordWrapWidth: 800,
+            lineHeight: 55,
         }));
         this.textDescripton.anchor.set(0.5, 0);
         Utils.staticLayout(this.textDescripton, 'top', {top: 5});

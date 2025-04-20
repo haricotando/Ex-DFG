@@ -64,29 +64,24 @@ export class CardPreparer extends PIXI.Container {
         const nextCardInfo = Utils.findObjectById(dp.assets.csv, dp.deck[dp.game.currentIndex]);
         const onImmediateIntervention = nextCardInfo.event_trigger == 'onImmediateIntervention';
 
-        const btnFlipCard = this.textAndButton.addChild(new CommonButton('カードをめくる'));
-        btnFlipCard.x = dp.stageRect.halfWidth;
-        btnFlipCard.y = dp.stageRect.height - dp.stageRect.height / 10;
-        btnFlipCard.alpha = 0;
-
         const eventBlock = this.addChild(new EventBlock(onImmediateIntervention));
         Utils.staticLayout(eventBlock, 'top', {top: 10})
         // eventBlock.position.set(dp.stageRect.halfWidth, 140);
         eventBlock.alpha = 0;
         
         gsap.timeline({delay: 0.5})
-            .to(btnFlipCard, {alpha:1, duration: 0.3, ease:'none'})
             .to(eventBlock, {alpha:1, duration:0.4, ease:'none'}, '<')
             .call(()=>{
-                btnFlipCard.cursor    = 'pointer';
-                btnFlipCard.eventMode = 'static';
+                this.cardBack.cursor    = 'pointer';
+                this.cardBack.eventMode = 'static';
             });
         
         const onTap = (e) => {
             gsap.timeline()
                 // .to(this.eventTypeImage.scale, {x:0.3, y:0.3, duration:0.3, ease:'none'})
                 .to(eventBlock, {alpha:0, duration:0.3, ease:'none'}, '<')
-            btnFlipCard.eventMode = 'none';
+                this.cardBack.cursor    = 'none';
+            // btnFlipCard.eventMode = 'none';
             this.flipCard();
             this.textAndButton.visible = false;
             // PIXI.sound.play('1tick3');
@@ -94,13 +89,14 @@ export class CardPreparer extends PIXI.Container {
             PIXI.sound.play('pop2');
         };
 
-        btnFlipCard.on('pointertap', onTap);
+        // btnFlipCard.on('pointertap', onTap);
 
         this.cardBack = this.addChild(new Card('card_back'));
         this.cardBack.scale.set(1);
         this.cardBack.rotation = Utils.degreesToRadians(Math.random() * 10 -5);
-        this.cardBack.position.set(dp.stageRect.halfWidth, dp.stageRect.halfHeight);
-        // this.cardBack.position.set(dp.stageRect.halfWidth, dp.stageRect.halfHeight - 200 - (20 * dp.stageRect.aspectRatio));
+        this.cardBack.position.set(dp.stageRect.halfWidth, dp.stageRect.halfHeight + dp.stageRect.halfHeight/10);
+        
+        this.cardBack.on('pointertap', onTap);
         /**
          * @todo ざっくりすぎるので調整
          */
@@ -149,28 +145,20 @@ export class CardPreparer extends PIXI.Container {
 
     flipCard2(){
         // 
-        const startButton = this.addChild(new CommonButton('続ける'));
-        Utils.staticLayout(startButton, 'bottom', {bottom: 10})
-        startButton.alpha = 0;
-        gsap.timeline({delay:0.5})
-        .to(startButton, {alpha:1, duration:0.4, ease:'none'})
-        .call(()=>{
-            startButton.cursor    = 'pointer';
-            startButton.eventMode = 'static';
-        });
-        
+        const card = this.addChild(new Card(this.cardId));
+
         const onTap = (e) => {
             PIXI.sound.play('1tick2');
-            startButton.eventMode = 'none';
+            card.eventMode = 'none';
             this.parent.standby();
             this.parent.removeChild(this);
         };
 
-        startButton.on('pointertap', onTap);
-
-        const card = this.addChild(new Card(this.cardId));
+        card.on('pointertap', onTap);
+        card.anchor = new PIXI.Point(0.5, 0.5);
+        card.anchor.set(0.5);
         card.x = dp.stageRect.halfWidth;
-        card.y = (startButton.y - startButton.height / 2)/2 + 55;
+        card.y = dp.stageRect.halfHeight;
         
         card.height = dp.stageRect.height * 0.75;
         const cardScale = card.scale.y;
@@ -181,7 +169,11 @@ export class CardPreparer extends PIXI.Container {
         gsap.timeline({delay:0.1})
             .to(this.whiteOverray, {alpha:0, duration:0.2, ease:'expo.out'})
             .to(card, {alpha:1, duration:0.3, ease:'none'}, '<0.2')
-            .to(card.scale, {x:cardScale, y:cardScale, duration:0.6, ease:'expo.out'}, '<0.1')
+            .to(card.scale, {x:cardScale*1.1, y:cardScale*1.1, duration:0.6, ease:'expo.out'}, '<0.1')
+            .call(()=>{
+                card.cursor    = 'pointer';
+                card.eventMode = 'static';
+            });
     }
 
 
